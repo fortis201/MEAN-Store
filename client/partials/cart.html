@@ -1,0 +1,29 @@
+<div ng-controller="ordersController">
+	<h2>Order Checkout:</h2>
+	<table class="table table-striped">
+		<tr>
+			<th>Product Name</th>
+			<th>Quantity ordered</th>
+		</tr>
+		<tr ng-repeat="item in cartDetails">
+			<td>{{ item.productName }}</td>
+			<td>{{ item.quantity }}</td>
+		</tr>
+	</table>
+
+	<h2>Temporary Orders List:</h2>
+	<table class="table table-striped">
+		<tr>
+			<th>Customer</th>
+			<th>Item</th>
+			<th>Quantity</th>
+			<th>Order Date</th>
+		</tr>
+		<tr ng-repeat="order in orders">
+			<td>{{ order._name }}</td>
+			<td>{{ order._product }}</td>
+			<td>{{ order.orderQuantity }}</td>
+			<td>{{ order.createdAt }}</td>
+		</tr>
+	</table>
+</div>

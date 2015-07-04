@@ -1,0 +1,46 @@
+<div ng-controller="productsController">
+	<div id="sidebar" class="inline">
+	<div id="filter">
+		<input type="text" name="search_customer" placeholder="filter data" ng-model="filter_name">
+	</div>
+		<div id="addNewProduct">
+			<p>Product Name:</p>
+			<input ng-model="newProduct.name" type="text"placeholder="Name your product...">
+			<p>Description:</p>
+			<textarea ng-model="newProduct.description" placeholder="Describe your product..."></textarea>
+			<p>Image Url:</p>
+			<input ng-model="newProduct.imageUrl" type="text" placeholder="http://lh6.googleusercontent.com/-OhCREkDSdn4/UzZfdntRmZI/AAAAAAAAAdQ/-NxEyaocwgU/w282-h258-no/github_cat.png">
+			<p>Initial Quantity:</p>
+			<select ng-model="newProduct.initialQuantity">
+				<option value="1">1</option>
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="30">30</option>
+			</select>
+			<button class="btn btn-success" ng-click="createProduct()">Create</button>
+		</div>
+	</div>
+	<div id="showAllProducts" class="inline">
+		<div class="scrollProducts">
+			<ul class="no_style">
+				<li class="inline product_image" ng-repeat="product in products | filter: filter_name">
+					<img src="{{ product.imageUrl }}" alt="{{ product.name }}"><p>{{ product.name }}</p>
+					<form>
+					<select ng-model="itemQuantity">
+						<option disabled>Quantity</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+					</select>
+					<button class="btn btn-primary" ng-click="addToCart(product, itemQuantity)">Add to cart</button>
+					</form>
+				</li>
+			</ul>
+		</div>
+		<a class="left" href=""><p>See more...</p></a>
+	</div>
+</div>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Mini MEAN Store</title>
+	<!-- bootstrap -->
+	<script src="./static/jquery/dist/jquery.min.js"></script>
+	<script src="./static/bootstrap/dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./static/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="./static/style.css">
+	
+	<!-- angular and route -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular-route.js"></script>
+	<!-- js and jquery -->
+	
+	<script src="./static/script.js"></script>
+</head>
+<body ng-app="myApp">
+	<div ng-controller="navBarController">
+		<ul>
+			<li><a href="#/">Dashboard</a></li>
+			<li><a href="#/products">Products</a></li>		
+			<li><a href="#/customers">Customers</a></li>
+			<li><a href="#/orders">My Cart</a></li>
+			<li ng-click="register()">Register</li>
+			<li ng-click="login()">Login</li>
+		</ul>
+	</div>
+	<div>
+		<ng-view>
+		</ng-view>
+	</div
+</body>
+</html>
