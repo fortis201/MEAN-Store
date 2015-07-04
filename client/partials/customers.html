@@ -1,7 +1,17 @@
 <div ng-controller="customersController">
 	<h3>Add a new customer</h3>
-	<p>Customer Name:</p>
-	<input type="text" ng-model="newCustomer.name">
+	<p>First Name:</p>
+	<input type="text" ng-model="newCustomer.fName">
+	<p>Last Name:</p>
+	<input type="text" ng-model="newCustomer.lName">
+	<p>Email:</p>
+	<input type="text" ng-model="newCustomer.email">
+	<p>Username:</p>
+	<input type="text" ng-model="newCustomer.uName">
+	<p>Password:</p>
+	<input type="text" ng-model="newCustomer.pw">
+	<p>Confirm Password:</p>
+	<input type="text" ng-model="newCustomer.conf_pw">
 	<input type="submit" class="btn btn-success" ng-click="createCustomer()" value="Add">
 	<p>{{ err_message.msg }}</p>
 	<p>{{db_err.msg}}</p>

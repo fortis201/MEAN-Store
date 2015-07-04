@@ -19,24 +19,32 @@ module.exports = (function (app) {
 		},
 
 		create: function (req, res) {
-			Customer.find({name: req.body.name}, function (err, result) {
+			Customer.find({email: req.body.email}, function (err, result) {
 				if (err) {
 					console.log(err);
 				} else if (result.length > 0) {
-					res.json({err_message: "already exists"});
+					res.json({err_message: "Cannot register with an exisitng email"});
 				} else {
-					console.log("creating customer...");
-					var customer = new Customer ({name: req.body.name, createdAt: new Date()});
-					customer.save(function (err, result) {
+					Customer.find({username: req.body.uName}, function (err, result) {
 						if (err) {
 							console.log(err);
+						} else if (result.length > 0) {
+							res.json({err_message: "Cannot register with an existing username"});
 						} else {
-							console.log("creation success!");
-							console.log(result);
-							// current_customer = result;
-							res.json(result);
+							console.log("creating customer...");
+							var customer = new Customer ({name: req.body.name, createdAt: new Date()});
+							customer.save(function (err, result) {
+								if (err) {
+									console.log(err);
+								} else {
+									console.log("creation success!");
+									console.log(result);
+									// current_customer = result;
+									res.json(result);
+								}
+							})					
 						}
-					})					
+					})
 				}
 			})
 		},
