@@ -5,16 +5,17 @@
 	<p>Last Name:</p>
 	<input type="text" ng-model="newCustomer.lName">
 	<p>Email:</p>
-	<input type="text" ng-model="newCustomer.email">
+	<input type="email" ng-model="newCustomer.email">
 	<p>Username:</p>
 	<input type="text" ng-model="newCustomer.uName">
 	<p>Password:</p>
-	<input type="text" ng-model="newCustomer.pw">
+	<input type="password" ng-model="newCustomer.pw">
 	<p>Confirm Password:</p>
-	<input type="text" ng-model="newCustomer.conf_pw">
+	<input type="password" ng-model="newCustomer.conf_pw">
 	<input type="submit" class="btn btn-success" ng-click="createCustomer()" value="Add">
 	<p>{{ err_message.msg }}</p>
 	<p>{{db_err.msg}}</p>
+	<br>
 	<input type="text" name="search_customer" placeholder="filter data" ng-model="filter_name">
 	<table class="table table-striped">
 		<tr>
@@ -22,7 +23,7 @@
 			<th>Recent Order</th>
 		</tr>
 		<tr ng-repeat="customer in customers | filter: filter_name">
-			<td>{{ customer.name }}</td>
+			<td>{{ customer.username }}</td>
 		</tr>
 	</table>
 </div>
