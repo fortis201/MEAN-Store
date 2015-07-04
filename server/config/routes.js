@@ -3,7 +3,9 @@ var products = require('../controllers/products.js');
 var orders = require('../controllers/orders.js');
 
 module.exports = function (app) {
+	// =====================//
 	// --=== Customers ===-- //
+	// =====================//
 	app.get('/showCustomers', function (req, res) {
 		customers.read(req, res);
 	});
@@ -12,7 +14,9 @@ module.exports = function (app) {
 		customers.create(req, res);
 	})
 
+	// =====================//
 	// --=== Products ===-- //
+	// =====================//
 	app.get('/showProducts', function (req, res) {
 		products.read(req, res);
 	})
@@ -21,7 +25,9 @@ module.exports = function (app) {
 		products.create(req, res);
 	})
 
+	// =====================//
 	// --=== Orders / Cart ===-- //
+	// =====================//
 	app.post('/showOrders', function (req,res) {
 		orders.create(req, res);
 	})

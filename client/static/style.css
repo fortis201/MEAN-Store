@@ -17,6 +17,15 @@
 	text-align: center;
 }
 
+.curved-input {
+	border-radius: 5px;
+	margin: 2px	3px	2px 3px;
+}
+
+.mini-mrg-top {
+	margin-top: 3px;
+}
+
 .tooltip {
 	border-radius: 10px;
 	box-shadow: 5px	5px	8px	#CCC;

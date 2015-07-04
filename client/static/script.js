@@ -3,7 +3,7 @@ var myApp = angular.module('myApp', ['ngRoute']);
 myApp.config(function ($routeProvider) {
 	$routeProvider
 		.when('/', {templateUrl: 'partials/dashboard.html'})
-		.when('/customers', {templateUrl: 'partials/customers.html'})
+		.when('/register', {templateUrl: 'partials/registration.html'})
 		.when('/products', {templateUrl: 'partials/products.html'})
 		.when('/orders', {templateUrl: 'partials/cart.html'})
 		.otherwise({redirectTo:'/'});
@@ -62,8 +62,8 @@ myApp.factory("mainFactory", function ($http, $location) {
 		});		
 	}
 
-	factory.miniCart = {};
-	factory.miniCart.contents = [];
+	// factory.miniCart = {};
+	// factory.miniCart.contents = [];
 
 	return factory;
 })
@@ -74,6 +74,8 @@ myApp.controller('customersController', function ($scope, $location, mainFactory
 
 	mainFactory.showCustomers(function (data) {
 		$scope.customers = data;
+		console.log("test data:");
+		console.log($scope.test);
 	});
 
 	$scope.createCustomer = function () {
@@ -99,12 +101,17 @@ myApp.controller('customersController', function ($scope, $location, mainFactory
 
 // --=== Navbar ===-- //
 myApp.controller('navBarController', function ($scope, $location, mainFactory) {
+	$scope.test = {};
+
 	$scope.login = function () {
 		console.log("logging in...");
+		// $scope.test = $scope.testData;
+		// console.log($scope.test);
 	}
 
 	$scope.register = function () {
 		console.log("registering...");
+		$location.path('/register');
 	}
 
 })
@@ -137,9 +144,9 @@ myApp.controller('productsController', function ($scope, $location, mainFactory)
 		$scope.orderDetails.productName = itemName;
 
 		console.log($scope.orderDetails);
-		mainFactory.miniCart.contents.push($scope.orderDetails);
-		console.log("minicart");
-		console.log(mainFactory.miniCart);
+		// mainFactory.miniCart.contents.push($scope.orderDetails);
+		// console.log("minicart");
+		// console.log(mainFactory.miniCart);
 
 		$scope.orderDetails = {};
 	}
@@ -152,7 +159,7 @@ myApp.controller('ordersController', function ($scope, $location, mainFactory) {
 		
 	// })
 	console.log("cart details");
-	$scope.cartDetails = mainFactory.miniCart.contents;
+	// $scope.cartDetails = mainFactory.miniCart.contents;
 	console.log($scope.cartDetails);
 
 	$scope.createOrder = function() {
