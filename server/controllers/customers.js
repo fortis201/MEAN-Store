@@ -17,6 +17,20 @@ module.exports = (function (app) {
 			})
 		},
 
+		read_one: function (req, res) {
+			console.log(req.body);
+			Customer.find({username: req.body.uName}, function (err, result) {
+				if (err) {
+					console.log(err);
+				} else if (result.length > 0) {
+					if ( req.body.pw === result[0].password) {
+						console.log("login success!");
+						res.json({uName : result[0].username});
+					}
+				}
+			})
+		},
+
 		create: function (req, res) {
 			Customer.find({email: req.body.email}, function (err, result) {
 				if (err) {
@@ -45,10 +59,6 @@ module.exports = (function (app) {
 					})
 				}
 			})
-		},
-
-		read_logged_in_user: function (req, res) {
-
 		}
 
 		// update: function (req, res) {

@@ -5,7 +5,7 @@ myApp.config(function ($routeProvider) {
 		.when('/', {templateUrl: 'partials/dashboard.html'})
 		.when('/register', {templateUrl: 'partials/registration.html'})
 		.when('/products', {templateUrl: 'partials/products.html'})
-		.when('/orders', {templateUrl: 'partials/cart.html'})
+		.when('/cart', {templateUrl: 'partials/cart.html'})
 		.otherwise({redirectTo:'/'});
 });
 
@@ -13,6 +13,9 @@ myApp.config(function ($routeProvider) {
 myApp.factory("mainFactory", function ($http, $location) {
 	var factory = {};
 
+	// **********************//
+	// --=== Customers ===-- //
+	// **********************//
 	factory.showCustomers = function (callback) {
 		$http.get('/showCustomers').success(function (result) {
 			console.log("Fetching customer data...");
@@ -21,17 +24,9 @@ myApp.factory("mainFactory", function ($http, $location) {
 		})
 	}
 
-	factory.showProducts = function (callback) {
-		$http.get('/showProducts').success(function (result) {
-			console.log("Fetching all products...");
-			console.log(result);
-			callback(result);
-		})
-	}
-
-	factory.showOrders = function (callback) {
-		$http.get('/showOrders').success(function (result) {
-			console.log("Fetching all orders...");
+	factory.findOneCust = function (info, callback) {
+		$http.post('/findOneCust', info).success(function (result) {
+			console.log("user credentials verified");
 			console.log(result);
 			callback(result);
 		})
@@ -45,10 +40,34 @@ myApp.factory("mainFactory", function ($http, $location) {
 		});		
 	}
 
+	// **********************//
+	// --=== Products  ===-- //
+	// **********************//
+
+	factory.showProducts = function (callback) {
+		$http.get('/showProducts').success(function (result) {
+			console.log("Fetching all products...");
+			console.log(result);
+			callback(result);
+		})
+	}
+
 	factory.addProduct = function (info, callback) {
 		console.log("sending new product data to the server...");
 		$http.post('/addProduct', info).success(function (result) {
 			console.log('New product results are: ');
+			console.log(result);
+			callback(result);
+		})
+	}
+
+	// **********************//
+	// --==== Orders  ====-- //
+	// **********************//
+
+	factory.showOrders = function (callback) {
+		$http.get('/showOrders').success(function (result) {
+			console.log("Fetching all orders...");
 			console.log(result);
 			callback(result);
 		})
@@ -62,20 +81,37 @@ myApp.factory("mainFactory", function ($http, $location) {
 		});		
 	}
 
-	// factory.miniCart = {};
-	// factory.miniCart.contents = [];
-
 	return factory;
 })
 
 // *** --=== CONTROLLERS ===-- *** //
+
+// --=== Navbar ===-- //
+myApp.controller('navBarController', function ($scope, $location, mainFactory) {
+
+	$scope.verified_user = {};
+
+	$scope.login = function () {
+		console.log("logging in with user:");
+		console.log($scope.userLogin);
+		mainFactory.findOneCust($scope.userLogin, function (data) {
+			console.log("in front-end controller with data:");
+			$scope.c_user = data;
+			console.log($scope.c_user);
+		})
+	}
+
+	$scope.register = function () {
+		$location.path('/register');
+	}
+
+})
+
 // --=== Customers ===-- //
 myApp.controller('customersController', function ($scope, $location, mainFactory) {
 
 	mainFactory.showCustomers(function (data) {
-		$scope.customers = data;
-		console.log("test data:");
-		console.log($scope.test);
+		$scope.customers = data;		
 	});
 
 	$scope.createCustomer = function () {
@@ -97,23 +133,6 @@ myApp.controller('customersController', function ($scope, $location, mainFactory
 			$scope.newCustomer = {};			
 		}
 	};
-})
-
-// --=== Navbar ===-- //
-myApp.controller('navBarController', function ($scope, $location, mainFactory) {
-	$scope.test = {};
-
-	$scope.login = function () {
-		console.log("logging in...");
-		// $scope.test = $scope.testData;
-		// console.log($scope.test);
-	}
-
-	$scope.register = function () {
-		console.log("registering...");
-		$location.path('/register');
-	}
-
 })
 
 // --=== Products ===-- //
@@ -144,9 +163,6 @@ myApp.controller('productsController', function ($scope, $location, mainFactory)
 		$scope.orderDetails.productName = itemName;
 
 		console.log($scope.orderDetails);
-		// mainFactory.miniCart.contents.push($scope.orderDetails);
-		// console.log("minicart");
-		// console.log(mainFactory.miniCart);
 
 		$scope.orderDetails = {};
 	}
@@ -159,7 +175,6 @@ myApp.controller('ordersController', function ($scope, $location, mainFactory) {
 		
 	// })
 	console.log("cart details");
-	// $scope.cartDetails = mainFactory.miniCart.contents;
 	console.log($scope.cartDetails);
 
 	$scope.createOrder = function() {

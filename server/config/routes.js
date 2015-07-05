@@ -10,6 +10,10 @@ module.exports = function (app) {
 		customers.read(req, res);
 	});
 
+	app.post('/findOneCust', function (req, res) {
+		customers.read_one(req, res);
+	})
+
 	app.post('/addCustomer', function (req, res) {
 		customers.create(req, res);
 	})
