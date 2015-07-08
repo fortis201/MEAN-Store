@@ -5,11 +5,12 @@
 			<th>Product Name</th>
 			<th>Quantity ordered</th>
 		</tr>
-		<tr ng-repeat="item in cartDetails">
+		<tr ng-repeat="item in orderDetails">
 			<td>{{ item.productName }}</td>
 			<td>{{ item.quantity }}</td>
 		</tr>
 	</table>
+	<button ng-click="createOrder()">Checkout</button>
 
 	<h2>Temporary Orders List:</h2>
 	<table class="table table-striped">
@@ -20,7 +21,7 @@
 			<th>Order Date</th>
 		</tr>
 		<tr ng-repeat="order in orders">
-			<td>{{ order._name }}</td>
+			<td>{{ order._customer }}</td>
 			<td>{{ order._product }}</td>
 			<td>{{ order.orderQuantity }}</td>
 			<td>{{ order.createdAt }}</td>

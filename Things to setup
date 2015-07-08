@@ -1,10 +1,13 @@
 <!-- Things to setup: 
 
 User Registration & Login
+	- fix registration validation: unique email/username
+	- fix blank field issue with registration
+	- add login validation for non-registered user
+
+"Clear Cart" button
 
 Customer Dashboard (OR just show products page as default?)
-
-Orders controller methods
 
 Migrate data from LAMP ecom or start fresh???
 

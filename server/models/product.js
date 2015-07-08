@@ -6,7 +6,7 @@ var productSchema = new mongoose.Schema({
 	description: String,
 	quantityInStock: Number, 
 	imageUrl: String,
-	order: [{ type: Schema.Types.ObjectId, ref: 'Order' }]
+	orders: { type: Schema.Types.ObjectId, ref: 'Order' }
 })
 
 mongoose.model('Product', productSchema);

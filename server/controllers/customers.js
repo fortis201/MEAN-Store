@@ -22,10 +22,16 @@ module.exports = (function (app) {
 			Customer.find({username: req.body.uName}, function (err, result) {
 				if (err) {
 					console.log(err);
+				} else if (result.length == 0) {
+					console.log("cannot find user");
+
+					// *** enter response here... *** //
+
 				} else if (result.length > 0) {
-					if ( req.body.pw === result[0].password) {
+					if ( req.body.pw === result[0].password ) {
 						console.log("login success!");
-						res.json({uName : result[0].username});
+						console.log(result);
+						res.json({uId : result[0]._id, uName : result[0].username});
 					}
 				}
 			})
@@ -52,7 +58,7 @@ module.exports = (function (app) {
 								} else {
 									console.log("creation success!");
 									console.log(result);
-									res.json(result);
+									res.json({uId : result._id, uName : result.username});
 								}
 							})					
 						}

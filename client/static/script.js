@@ -66,6 +66,7 @@ myApp.factory("mainFactory", function ($http, $location) {
 	// **********************//
 
 	factory.showOrders = function (callback) {
+		console.log("showing orders");
 		$http.get('/showOrders').success(function (result) {
 			console.log("Fetching all orders...");
 			console.log(result);
@@ -74,9 +75,9 @@ myApp.factory("mainFactory", function ($http, $location) {
 	}
 
 	factory.addOrder = function (info, callback) {
-		console.log("sending new customer data to the server...");
-		$http.post('/addCustomer', info).success(function (result) {
-			console.log("Receiving 'add' results from server..");
+		console.log("sending cart data to the server...");
+		$http.post('/addOrder', info).success(function (result) {
+			console.log("Receiving checkout results from server..");
 			callback(result);
 		});		
 	}
@@ -89,16 +90,19 @@ myApp.factory("mainFactory", function ($http, $location) {
 // --=== Navbar ===-- //
 myApp.controller('navBarController', function ($scope, $location, mainFactory) {
 
-	$scope.verified_user = {};
+	$scope.c_user = {};
+	$scope.orderDetails = [];
 
 	$scope.login = function () {
 		console.log("logging in with user:");
 		console.log($scope.userLogin);
 		mainFactory.findOneCust($scope.userLogin, function (data) {
 			console.log("in front-end controller with data:");
+			$scope.orderDetails.push(data.uId);	
 			$scope.c_user = data;
 			console.log($scope.c_user);
 		})
+		$scope.userLogin = {};
 	}
 
 	$scope.register = function () {
@@ -109,15 +113,19 @@ myApp.controller('navBarController', function ($scope, $location, mainFactory) {
 
 // --=== Customers ===-- //
 myApp.controller('customersController', function ($scope, $location, mainFactory) {
+	$scope.newCustomer = {};
+	$scope.err_message = {};
 
 	mainFactory.showCustomers(function (data) {
 		$scope.customers = data;		
 	});
 
 	$scope.createCustomer = function () {
-		$scope.err_message = {};
-		if (!$scope.newCustomer) {
-			$scope.err_message = {msg: "this field cannot be empty"};
+		// $scope.input_err = {};
+		
+		if (!$scope.newCustomer.fName || !$scope.newCustomer.lName || !$scope.newCustomer.email || !$scope.newCustomer.uName || !$scope.newCustomer.pw) {
+			$scope.reg_err = {msg: "All fields must be filled out."};
+			console.log($scope.reg_err);
 		} else {
 			mainFactory.addCustomer($scope.newCustomer, function (data) {
 				console.log(data);
@@ -133,15 +141,22 @@ myApp.controller('customersController', function ($scope, $location, mainFactory
 			$scope.newCustomer = {};			
 		}
 	};
+
+	$scope.createCart = function() {
+		if ($scope.orderDetails.length > 0) {
+			mainFactory.addOrder({x: $scope.orderDetails[0]}, function (data) {
+				console.log("order created..?");
+				console.log(data);
+			})
+		}
+	}
 })
 
 // --=== Products ===-- //
 myApp.controller('productsController', function ($scope, $location, mainFactory) {
 	mainFactory.showProducts(function (data) {
 		$scope.products = data;
-	})
-
-	$scope.orderDetails = {};
+	})	
 
 	$scope.createProduct = function() {
 		console.log($scope.newProduct);
@@ -155,40 +170,36 @@ myApp.controller('productsController', function ($scope, $location, mainFactory)
 	}
 
 	$scope.addToCart = function (item, quantity) {
-		console.log(quantity);
-		var itemId = item._id;
-		var itemName = item.name;
-		$scope.orderDetails.quantity = quantity;
-		$scope.orderDetails.productId = itemId;
-		$scope.orderDetails.productName = itemName;
+		$scope.addedToCart = {};
+		if ($scope.orderDetails.length >= 1) {
+			$scope.addedToCart.quantity = quantity;
+			$scope.addedToCart.productId = item._id;
+			$scope.addedToCart.productName = item.name;
 
-		console.log($scope.orderDetails);
-
-		$scope.orderDetails = {};
+			$scope.orderDetails.push($scope.addedToCart);
+			$scope.addedToCart = {};			
+		} else {
+			alert("You must be looged-in to add items to your cart.");
+		}
 	}
 })
 
 // --=== Orders ===-- //
 myApp.controller('ordersController', function ($scope, $location, mainFactory) {
-	// mainFactory.showOrders(function (data) {
-	// 	$scope.products = data;	
+	mainFactory.showOrders(function (data) {		
+		$scope.orders = data;	
 		
-	// })
+	})
 	console.log("cart details");
-	console.log($scope.cartDetails);
+	console.log($scope.orderDetails);
 
 	$scope.createOrder = function() {
-		// console.log("in orderCtrl");
-		// console.log($scope.newOrder);
-
-
-
-		// mainFactory.addOrder($scope.newOrder, function (result) {
-		// 	console.log(result);
-		// })
-		// mainFactory.showOrder(function (data) {
-		// 	$scope.orders = data;
-		// })
-		// $scope.newOrder = {};
+		console.log("fix this function!");
+		// for (var i=1;i<$scope.orderDetails.length;i++) {
+		// 	mainFactory.addOrder({x: $scope.orderDetails[0], y: $scope.orderDetails[i]}, function (data) {
+		// 		console.log("order created..?");
+		// 		console.log(data);
+		// 	})			
+		// }
 	}
 })

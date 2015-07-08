@@ -36,7 +36,7 @@ module.exports = function (app) {
 		orders.create(req, res);
 	})
 
-	app.post('/addOrdrer', function (req,res) {
-		orders.create(req, res);
+	app.post('/addOrder', function (req,res) {
+		orders.create(req, res);			
 	})
 }
