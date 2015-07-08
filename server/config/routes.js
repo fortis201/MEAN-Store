@@ -39,4 +39,8 @@ module.exports = function (app) {
 	app.post('/addOrder', function (req,res) {
 		orders.create(req, res);			
 	})
+
+	app.post('/updateOrder', function (req, res) {
+		orders.update(req, res);
+	})
 }

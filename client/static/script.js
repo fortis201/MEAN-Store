@@ -75,11 +75,18 @@ myApp.factory("mainFactory", function ($http, $location) {
 	}
 
 	factory.addOrder = function (info, callback) {
-		console.log("sending cart data to the server...");
+		console.log("creating new cart...");
 		$http.post('/addOrder', info).success(function (result) {
 			console.log("Receiving checkout results from server..");
 			callback(result);
 		});		
+	}
+
+	factory.updateOrder = function (info, callback) {
+		console.log("sending cart data to the server...");
+		$http.post("/updateOrder", info).success(function (result) {
+			callback(result);
+		})
 	}
 
 	return factory;
@@ -98,16 +105,18 @@ myApp.controller('navBarController', function ($scope, $location, mainFactory) {
 		console.log($scope.userLogin);
 		mainFactory.findOneCust($scope.userLogin, function (data) {
 			console.log("in front-end controller with data:");
-			$scope.orderDetails.push(data.uId);	
+			$scope.orderDetails.push({uId : data.uId});	
 			$scope.c_user = data;
 			console.log($scope.c_user);
-		})
-		$scope.userLogin = {};
 
-		mainFactory.addOrder({x: $scope.orderDetails[0]}, function (data) {
-			console.log("order created..?");
-			console.log(data);
+			mainFactory.addOrder({uId : data.uId}, function (data) {
+				console.log("order created..?");
+				console.log(data);
+				$scope.orderDetails[0].oId = data.oId;
+				console.log($scope.orderDetails);
+			})
 		})
+		$scope.userLogin = {};		
 	}
 
 	$scope.register = function () {
@@ -189,13 +198,13 @@ myApp.controller('ordersController', function ($scope, $location, mainFactory) {
 	console.log("cart details");
 	console.log($scope.orderDetails);
 
-	$scope.createOrder = function() {
+	$scope.updateOrder = function() {
 		console.log("fix this function!");
-		// for (var i=1;i<$scope.orderDetails.length;i++) {
-		// 	mainFactory.addOrder({x: $scope.orderDetails[0], y: $scope.orderDetails[i]}, function (data) {
-		// 		console.log("order created..?");
-		// 		console.log(data);
-		// 	})			
-		// }
+		for (var i=1;i<$scope.orderDetails.length;i++) {
+			mainFactory.updateOrder({x: $scope.orderDetails[0], y: $scope.orderDetails[i]}, function (data) {
+				console.log("order created..?");
+				console.log(data);
+			})			
+		}
 	}
 })
