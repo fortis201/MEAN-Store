@@ -103,6 +103,11 @@ myApp.controller('navBarController', function ($scope, $location, mainFactory) {
 			console.log($scope.c_user);
 		})
 		$scope.userLogin = {};
+
+		mainFactory.addOrder({x: $scope.orderDetails[0]}, function (data) {
+			console.log("order created..?");
+			console.log(data);
+		})
 	}
 
 	$scope.register = function () {
@@ -141,15 +146,6 @@ myApp.controller('customersController', function ($scope, $location, mainFactory
 			$scope.newCustomer = {};			
 		}
 	};
-
-	$scope.createCart = function() {
-		if ($scope.orderDetails.length > 0) {
-			mainFactory.addOrder({x: $scope.orderDetails[0]}, function (data) {
-				console.log("order created..?");
-				console.log(data);
-			})
-		}
-	}
 })
 
 // --=== Products ===-- //
