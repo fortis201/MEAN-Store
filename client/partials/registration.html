@@ -1,21 +1,51 @@
-<div ng-controller="customersController">
+<div ng-controller="customersController" class="centered">
 	<h3>Add a new customer</h3>
-	<p>First Name:</p>
-	<input type="text" ng-model="newCustomer.fName" required>
-	<p>Last Name:</p>
-	<input type="text" ng-model="newCustomer.lName" required>
-	<p>Email:</p>
-	<input type="email" ng-model="newCustomer.email" required>
-	<p>Username:</p>
-	<input type="text" ng-model="newCustomer.uName" required>
-	<p>Password:</p>
-	<input type="password" ng-model="newCustomer.pw" required>
-	<p>Confirm Password:</p>
-	<input type="password" ng-model="newCustomer.conf_pw">
-	<input type="submit" class="btn btn-success" ng-click="createCustomer()" value="Add">
-	<p>{{ reg_err.msg }}</p>
-	<p>{{db_err.msg}}</p>
-	<br>
+	<form name="regForm">
+		<p>First Name:</p>
+		<input type="text" name="fName" ng-model="newCustomer.fName" ng-minlength="2" ng-pattern="/^[a-zA-Z]*$/" required>
+		<div role="alert">
+			<span class="error" ng-show="regForm.fName.$error.required"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-minlength"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-pattern"></span>
+		</div>
+		<p>Last Name:</p>
+		<input type="text" name="lName" ng-model="newCustomer.lName" ng-minlength="2" ng-pattern="/^[a-zA-Z]*$/" required>
+		<div role="alert">
+			<span class="error" ng-show="regForm.fName.$error.required"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-minlength"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-pattern"></span>
+		</div>
+
+		<p>Email:</p>
+		<input type="email" name="email" ng-model="newCustomer.email" ng-pattern="/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/" required>
+		<div role="alert">
+			<span class="error" ng-show="regForm.fName.$error.required"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-minlength"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-pattern"></span>
+		</div>
+
+		<p>Username:</p>
+		<input type="text" name="uName" ng-model="newCustomer.uName" ng-minlength="4" ng-pattern="^[a-zA-Z0-9_]*$" required>
+		<div role="alert">
+			<span class="error" ng-show="regForm.fName.$error.required"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-minlength"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-pattern"></span>
+		</div>
+
+		<p>Password:</p>
+		<input type="password" name="pw" ng-model="newCustomer.pw" ng-minlength="6" ng-pattern="" required>
+		<p>Confirm Password:</p>
+		<input type="password" name="conf_pw" ng-model="newCustomer.conf_pw" ng-minlength="6" required>
+		<div role="alert">
+			<span class="error" ng-show="regForm.fName.$error.required"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-minlength"></span>
+			<span class="error" ng-show="regForm.fName.$error.ng-pattern"></span>
+		</div>
+
+		<input type="submit" class="btn btn-success" ng-click="createCustomer()" value="Add">
+		<p>{{ reg_err.msg }}</p>
+		<p>{{db_err.msg}}</p>
+	</form>
 	<input type="text" name="search_customer" placeholder="filter data" ng-model="filter_name">
 	<table class="table table-striped">
 		<tr>

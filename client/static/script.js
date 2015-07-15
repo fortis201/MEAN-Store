@@ -2,9 +2,10 @@ var myApp = angular.module('myApp', ['ngRoute']);
 
 myApp.config(function ($routeProvider) {
 	$routeProvider
-		.when('/', {templateUrl: 'partials/dashboard.html'})
+		.when('/', {templateUrl: 'partials/products.html'})
 		.when('/register', {templateUrl: 'partials/registration.html'})
-		.when('/products', {templateUrl: 'partials/products.html'})
+		// will implement user dashboard in the future
+		// .when('/products', {templateUrl: 'partials/products.html'})
 		.when('/cart', {templateUrl: 'partials/cart.html'})
 		.otherwise({redirectTo:'/'});
 });
@@ -137,8 +138,8 @@ myApp.controller('customersController', function ($scope, $location, mainFactory
 	$scope.createCustomer = function () {
 		// $scope.input_err = {};
 		
-		if (!$scope.newCustomer.fName || !$scope.newCustomer.lName || !$scope.newCustomer.email || !$scope.newCustomer.uName || !$scope.newCustomer.pw) {
-			$scope.reg_err = {msg: "All fields must be filled out."};
+		if ($scope.newCustomer.pw != $scope.newCustomer.conf_pw ) {
+			$scope.reg_err = {msg: "Passwords must match"};
 			console.log($scope.reg_err);
 		} else {
 			mainFactory.addCustomer($scope.newCustomer, function (data) {
@@ -175,14 +176,8 @@ myApp.controller('productsController', function ($scope, $location, mainFactory)
 	}
 
 	$scope.addToCart = function (item, quantity) {
-		$scope.addedToCart = {};
 		if ($scope.orderDetails.length >= 1) {
-			$scope.addedToCart.quantity = quantity;
-			$scope.addedToCart.productId = item._id;
-			$scope.addedToCart.productName = item.name;
-
-			$scope.orderDetails.push($scope.addedToCart);
-			$scope.addedToCart = {};			
+			$scope.orderDetails.push({quantity: quantity, productId: item._id, productName: item.name});	
 		} else {
 			alert("You must be looged-in to add items to your cart.");
 		}

@@ -11,11 +11,7 @@ app.use(bodyParser.json());
 require('./server/config/mongoose.js');
 require('./server/config/routes.js')(app);
 
-// app.get('/', function (req, res) {
-// 	res.render('index');
-// })
-
-var server = app.listen(1232, function () {
-	console.log('Established connection to 1232.');
+var server = app.listen(3212, function () {
+	console.log('Established connection to 3212.');
 })
 
